@@ -314,7 +314,7 @@ function t(t,e,i,s){var n,o=arguments.length,a=o<3?e:null===s?s=Object.getOwnPro
         ${x||w?E`
           <li>
             <ha-icon icon="mdi:weather-windy"></ha-icon> ${((t,e)=>t<0||t>360?(console.log("Enter a degree between 0 and 360 degrees."),null):t>=0&&t<=11.25?e.N:t>348.75&&t<=360?e.N:t>11.25&&t<=33.75?e.NNE:t>33.75&&t<=56.25?e.NE:t>56.25&&t<=78.75?e.ENE:t>78.75&&t<=101.25?e.E:t>101.25&&t<=123.75?e.ESE:t>123.75&&t<=146.25?e.SE:t>146.25&&t<=168.75?e.SSE:t>168.75&&t<=191.25?e.S:t>191.25&&t<=213.75?e.SSW:t>213.75&&t<=236.25?e.SW:t>236.25&&t<=258.75?e.WSW:t>258.75&&t<=281.25?e.W:t>281.25&&t<=303.75?e.WNW:t>303.75&&t<=326.25?e.NW:t>326.25&&t<=348.75?e.NNW:null)(w,n.windDirections)} ${x}
-            <span class="unit">${Lt(t,"wind_speed")}/h</span>
+            <span class="unit">${Lt(t,"wind_speed")}</span>
           </li>
         `:""}        
         ${void 0!==d?Et(d.toLocaleTimeString(s),"","mdi:weather-sunset-up"):""}               
