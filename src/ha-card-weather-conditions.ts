@@ -6,57 +6,57 @@ import {
   CSSResult,
   TemplateResult, css,
 } from "lit-element";
-import { unsafeCSS } from 'lit-element/lib/css-tag.js';
-import {HomeAssistant} from "custom-card-helpers";
+import { unsafeCSS } from 'lit-element/lib/css-tag';
+import { HomeAssistant } from "custom-card-helpers";
 
-import style from './style' ;
+import style from './style';
 import styleSummary from './ha-style-summary';
-import styleMeter from './ha-style-meter' ;
-import styleForecast from './ha-style-forecast' ;
-import styleCamera from './ha-style-camera' ;
+import styleMeter from './ha-style-meter';
+import styleForecast from './ha-style-forecast';
+import styleCamera from './ha-style-camera';
 import styleNightAndDay from './ha-style-day-night';
-import {getSeaStyle} from "./ha-style-sea"
+import { getSeaStyle } from "./ha-style-sea";
 
-import {cwcClimacellDayIcons, cwcClimacellNightIcons, cwcClimacellDayBg} from "./ha-cwc-climacell" ;
-import {cwcDarkskyDayIcons, cwcDarkskyNightIcons} from "./ha-cwc-darksky" ;
-import {cwcOpenWeatherMapDayIcons, cwcOpenWeatherMapNightIcons} from "./ha-cwc-openweathermap" ;
-import {cwcBuienradarDayIcons, cwcBuienradarNightIcons} from "./ha-cwc-buienradar" ;
-import {cwcDefaultHassDayIcons, cwcDefaultHassNightIcons} from "./ha-cwc-hass" ;
+import { cwcClimacellDayIcons, cwcClimacellNightIcons, cwcClimacellDayBg } from "./ha-cwc-climacell";
+import { cwcDarkskyDayIcons, cwcDarkskyNightIcons } from "./ha-cwc-darksky";
+import { cwcOpenWeatherMapDayIcons, cwcOpenWeatherMapNightIcons } from "./ha-cwc-openweathermap";
+import { cwcBuienradarDayIcons, cwcBuienradarNightIcons } from "./ha-cwc-buienradar";
+import { cwcDefaultHassDayIcons, cwcDefaultHassNightIcons } from "./ha-cwc-hass";
 
-import {IconsConfig, ITerms, CardConfig} from "./types" ;
+import { IconsConfig, ITerms, CardConfig } from "./types";
 
-import {cwcLocale} from "./ha-cwc-consts" ;
-import {imageExist, loadJSON} from "./ha-cwc-utils" ;
-import {renderSummary} from "./ha-cwc-render-summary" ;
-import {renderPresent} from "./ha-cwc-render-present" ;
-import {renderForecasts} from "./ha-cwc-render-forecast" ;
-import {renderPollens} from "./ha-cwc-render-pollen";
-import {renderAirQualities} from "./ha-cwc-render-airquality";
-import {renderUv} from "./ha-cwc-render-uv" ;
-import {renderAlert} from "./ha-cwc-render-alert" ;
-import {renderSeaForecast} from "./ha-cwc-render-sea" ;
+import { cwcLocale } from "./ha-cwc-consts";
+import { imageExist, loadJSON } from "./ha-cwc-utils";
+import { renderSummary } from "./ha-cwc-render-summary";
+import { renderPresent } from "./ha-cwc-render-present";
+import { renderForecasts } from "./ha-cwc-render-forecast";
+import { renderPollens } from "./ha-cwc-render-pollen";
+import { renderAirQualities } from "./ha-cwc-render-airquality";
+import { renderUv } from "./ha-cwc-render-uv";
+import { renderAlert } from "./ha-cwc-render-alert";
+import { renderSeaForecast } from "./ha-cwc-render-sea";
 
-const hacsImagePath: string = "/local/community/ha-card-weather-conditions/icons" ;
-const manImagePath: string = "/local/ha-card-weather-conditions/icons" ;
+const hacsImagePath: string = "/local/community/ha-card-weather-conditions/icons";
+const manImagePath: string = "/local/ha-card-weather-conditions/icons";
 
-export let hacsImagePathExist: boolean = false ;
-export let manImagePathExist: boolean = false ;
+export let hacsImagePathExist: boolean = false;
+export let manImagePathExist: boolean = false;
 
-let logo: string = "%c WEATHER-CONDITION-CARD %c 1.9.9" ;
-let optConsoleParam1: string = "color: white; background: green; font-weight: 700;" ;
-let optConsoleParam2: string = "color: green; background: white; font-weight: 700;" ;
-let optConsoleParam3: string = "color: black; background: white; font-weight: 700;" ;
+const logo: string = "%c WEATHER-CONDITION-CARD %c 1.9.9";
+const optConsoleParam1: string = "color: white; background: green; font-weight: 700;";
+const optConsoleParam2: string = "color: green; background: white; font-weight: 700;";
+const optConsoleParam3: string = "color: black; background: white; font-weight: 700;";
 
-export let numberFormat_0dec = null ;
-export let numberFormat_1dec = null ;
+export let numberFormat_0dec = null;
+export let numberFormat_1dec = null;
 
-let globalImagePath: string ;
+let globalImagePath: string;
 
-const UNDEFINED = "undefined" ;
-Object.defineProperty(Object.prototype, 'isSet',{
-  value: function(object, testIsBlank) {
-    let t1 = !(typeof object === UNDEFINED || null === object) ;
-    return( testIsBlank ? t1 && object.length > 0 : t1 ) ;
+const UNDEFINED = "undefined";
+Object.defineProperty(Object.prototype, 'isSet', {
+  value(object, testIsBlank) {
+    const t1 = !(typeof object === UNDEFINED || object === null);
+    return (testIsBlank ? t1 && object.length > 0 : t1);
   },
   writable: true,
   configurable: true,
@@ -65,82 +65,109 @@ Object.defineProperty(Object.prototype, 'isSet',{
 
 console.info(logo, optConsoleParam1, optConsoleParam2);
 
-let findImagePath = [imageExist(hacsImagePath + "/static/cloudy.svg"),
-  imageExist(manImagePath + "/static/cloudy.svg"), ] ;
+const findImagePath = [imageExist(`${hacsImagePath}/static/cloudy.svg`),
+  imageExist(`${manImagePath}/static/cloudy.svg`), ];
 
 Promise.all(findImagePath).then((testResults) => {
-  let hacsImages: boolean, manImages: boolean ;
+  let hacsImages: boolean; let
+    manImages: boolean;
 
-  hacsImages = hacsImagePathExist = testResults[0] ;
-  manImages = manImagePathExist = testResults[1] ;
+  hacsImages = hacsImagePathExist = testResults[0];
+  manImages = manImagePathExist = testResults[1];
 
-  globalImagePath = (hacsImages ? hacsImagePath : manImages ? manImagePath : null) ;
-  let translPath = globalImagePath + '/../transl/' ;
-  let findTranslation = [
-    loadJSON(translPath + 'en.json'),
-    loadJSON(translPath + 'it.json'),
-    loadJSON(translPath + 'nl.json'),
-    loadJSON(translPath + 'es.json'),
-    loadJSON(translPath + 'de.json'),
-    loadJSON(translPath + 'fr.json'),
-    loadJSON(translPath + 'sr-latn.json'),
-    loadJSON(translPath + 'pt.json'),
-    loadJSON(translPath + 'da.json'),
-    loadJSON(translPath + 'no-NO.json')
-  ] ;
+  globalImagePath = (hacsImages ? hacsImagePath : manImages ? manImagePath : null);
+  const translPath = `${globalImagePath}/../transl/`;
+  const findTranslation = [
+    loadJSON(`${translPath}en.json`),
+    loadJSON(`${translPath}it.json`),
+    loadJSON(`${translPath}nl.json`),
+    loadJSON(`${translPath}es.json`),
+    loadJSON(`${translPath}de.json`),
+    loadJSON(`${translPath}fr.json`),
+    loadJSON(`${translPath}sr-latn.json`),
+    loadJSON(`${translPath}pt.json`),
+    loadJSON(`${translPath}da.json`),
+    loadJSON(`${translPath}no-NO.json`),
+    loadJSON(`${translPath}is.json`),
+  ];
 
-  if( hacsImages ) console.info(logo + "%c use HACS path to retrieve icons.", optConsoleParam1, optConsoleParam2, optConsoleParam3);
-  else if ( manImages ) console.info(logo + "%c use www root path to retrieve icons.", optConsoleParam1, optConsoleParam2, optConsoleParam3);
-  else console.info(logo + "%c error setting right icons path.", optConsoleParam1, optConsoleParam2, optConsoleParam3);
+  if (hacsImages) console.info(`${logo}%c use HACS path to retrieve icons.`, optConsoleParam1, optConsoleParam2, optConsoleParam3);
+  else if (manImages) console.info(`${logo}%c use www root path to retrieve icons.`, optConsoleParam1, optConsoleParam2, optConsoleParam3);
+  else console.info(`${logo}%c error setting right icons path.`, optConsoleParam1, optConsoleParam2, optConsoleParam3);
 
   Promise.all(findTranslation).then((translations) => {
-
     @customElement("ha-card-weather-conditions")
     class HaCardWeatherConditions extends LitElement {
       @property() public hass?: HomeAssistant;
+
       @property() private _config?: CardConfig;
 
       private _iconsConfig: IconsConfig = new class implements IconsConfig {
         iconType: string;
+
         icons_model: string ;
+
         iconsDay: { [p: string]: string };
+
         iconsNight: { [p: string]: string };
+
         path: string ;
-      };
+      }();
+
       private _terms: ITerms = new class implements ITerms {
         windDirections;
+
         words;
-      };
+      }();
 
       private invalidConfig: boolean = false ;
+
       private numberElements: number = 0 ;
 
       private _header: boolean = true ;
+
       private _name: string = '' ;
+
       private _language: string ;
 
       private _hasCurrent: boolean = false ;
+
       private _hasForecast: boolean = false ;
+
       private _hasMeteogram: boolean = false ;
+
       private _hasAirQuality: boolean = false ;
+
       private _hasPollen: boolean = false ;
+
       private _hasUv: boolean = false ;
+
       private _hasAlert: boolean = false ;
+
       private _hasSea: boolean = false ;
 
       private _displayTop: boolean = true ;
+
       private _displayCurrent: boolean = true ;
+
       private _displayForecast: boolean = true ;
 
       private _classNameSuffix: string ;
 
       private _showSummary: boolean = true ;
+
       private _showPresent: boolean = true ;
+
       private _showUv: boolean = true ;
+
       private _showAirQuality: boolean = true ;
+
       private _showPollen: boolean = true ;
+
       private _showForecast: boolean = true ;
+
       private _showAlert: boolean = true ;
+
       private _showSea: boolean = true ;
 
       /**
@@ -148,7 +175,7 @@ Promise.all(findImagePath).then((testResults) => {
        * @param {CardConfig} config
        */
       public setConfig(config: CardConfig) {
-        console.log({card_config: config});
+        console.log({ card_config: config });
 
         if (!config) {
           this.invalidConfig = true;
@@ -162,28 +189,28 @@ Promise.all(findImagePath).then((testResults) => {
           this._language = config.language.toLowerCase();
         } else this._language = 'en';
 
-        let transls ;
+        let transls;
         try {
           transls = JSON.parse(translations[cwcLocale[this._language]]);
-          this._terms.windDirections = transls.cwcLocWindDirections ;
-          this._terms.words = transls.cwcTerms ;
-          console.info(logo + "%c card \"" + this._name + "\", locale is '" + this._language + "'.",
+          this._terms.windDirections = transls.cwcLocWindDirections;
+          this._terms.words = transls.cwcTerms;
+          console.info(`${logo}%c card "${this._name}", locale is '${this._language}'.`,
             optConsoleParam1, optConsoleParam2, optConsoleParam3);
-        } catch(e) {
-          transls = JSON.parse(translations[cwcLocale['en']]);
-          this._terms.windDirections = transls.cwcLocWindDirections ;
-          this._terms.words = transls.cwcTerms ;
-          console.info(logo + "%c card \"" + this._name + "\" unable to use '" + this._language + "' locale, set as default 'en'.",
+        } catch (e) {
+          transls = JSON.parse(translations[cwcLocale.en]);
+          this._terms.windDirections = transls.cwcLocWindDirections;
+          this._terms.words = transls.cwcTerms;
+          console.info(`${logo}%c card "${this._name}" unable to use '${this._language}' locale, set as default 'en'.`,
             optConsoleParam1, optConsoleParam2, optConsoleParam3);
         }
 
-        numberFormat_0dec = new Intl.NumberFormat(this._language, { maximumFractionDigits: 0 }) ;
-        numberFormat_1dec = new Intl.NumberFormat(this._language, { maximumFractionDigits: 1 }) ;
+        numberFormat_0dec = new Intl.NumberFormat(this._language, { maximumFractionDigits: 0 });
+        numberFormat_1dec = new Intl.NumberFormat(this._language, { maximumFractionDigits: 1 });
 
         if (undefined !== config.display) {
-          this._displayTop = config.display.findIndex(item => 'top' === item.toLowerCase()) >= 0;
-          this._displayCurrent = config.display.findIndex(item => 'current' === item.toLowerCase()) >= 0;
-          this._displayForecast = config.display.findIndex(item => 'forecast' === item.toLowerCase()) >= 0;
+          this._displayTop = config.display.findIndex(item => item.toLowerCase() === 'top') >= 0;
+          this._displayCurrent = config.display.findIndex(item => item.toLowerCase() === 'current') >= 0;
+          this._displayForecast = config.display.findIndex(item => item.toLowerCase() === 'forecast') >= 0;
         }
 
         this._hasCurrent = (!!config.weather) && (!!config.weather.current);
@@ -270,132 +297,128 @@ Promise.all(findImagePath).then((testResults) => {
        * @private
        */
       _render() {
-        let sunrise, sunriseEnd, sunsetStart, sunset, now ;
-        let dynStyle, condition, habgImage ;
+        let sunrise; let sunriseEnd; let sunsetStart; let sunset; let
+          now;
+        let dynStyle; let condition; let
+          habgImage;
 
-        let _renderedSummary, _renderedPresent, _renderedUv, _renderedAirQuality, _renderedPollen, _renderedForecast,
-          _renderedAlert, _renderedSea ;
+        let _renderedSummary; let _renderedPresent; let _renderedUv; let _renderedAirQuality; let _renderedPollen; let _renderedForecast;
+        let _renderedAlert; let
+          _renderedSea;
         // let _renderSummury: boolean = false ;
 
-        let posix:number = 0 ;
-        let states = this.hass.states ;
+        let posix:number = 0;
+        const { states } = this.hass;
 
-        if( this._showSummary && this._hasCurrent ) {
-          let current = this._config.weather.current ;
+        if (this._showSummary && this._hasCurrent) {
+          const { current } = this._config.weather;
 
-          if((current.current_conditions && typeof states[ current.current_conditions ] !== undefined)
-            || (current.temperature && typeof states[ current.temperature ] !== undefined)) {
+          if ((current.current_conditions && typeof states[current.current_conditions] !== undefined)
+            || (current.temperature && typeof states[current.temperature] !== undefined)) {
             _renderedSummary = renderSummary(this.hass,
-              this._config.weather.current, this._config.name, this._iconsConfig, this._terms) ;
-            posix++ ;
-          } else _renderedSummary = "" ;
-        } else _renderedSummary = "" ;
+              this._config.weather.current, this._config.name, this._iconsConfig, this._terms);
+            posix++;
+          } else _renderedSummary = "";
+        } else _renderedSummary = "";
 
         // Test if render >Present<
-        if( this._showPresent && this._hasCurrent) {
-          let current = this._config.weather.current ;
+        if (this._showPresent && this._hasCurrent) {
+          const { current } = this._config.weather;
 
-          if((current.sun && typeof states[ current.sun ] !== undefined)
-            || (current.humidity && typeof states[ current.humidity ] !== undefined)
-            || (current.pressure && typeof states[ current.pressure ] !== undefined)
-            || (current.visibility && typeof states[ current.visibility ] !== undefined)
-            || (current.wind_bearing && typeof states[ current.wind_bearing ] !== undefined)
-            || (current.wind_speed && typeof states[ current.wind_speed ] !== undefined)) {
-
+          if ((current.sun && typeof states[current.sun] !== undefined)
+            || (current.humidity && typeof states[current.humidity] !== undefined)
+            || (current.pressure && typeof states[current.pressure] !== undefined)
+            || (current.visibility && typeof states[current.visibility] !== undefined)
+            || (current.wind_bearing && typeof states[current.wind_bearing] !== undefined)
+            || (current.wind_speed && typeof states[current.wind_speed] !== undefined)) {
             _renderedPresent = renderPresent(this.hass,
-              this._config.weather.current, this._config.weather.forecast, this._language, this._terms, posix > 0) ;
-            posix++ ;
-          } else {
-            if(current.forecast && this._hasForecast) {
-              let forecast = this._config.weather.forecast ;
+              this._config.weather.current, this._config.weather.forecast, this._language, this._terms, posix > 0);
+            posix++;
+          } else if (current.forecast && this._hasForecast) {
+            const { forecast } = this._config.weather;
 
-              if((forecast.temperature_low && forecast.temperature_low.day_1 && typeof states[ forecast.temperature_low.day_1 ] !== undefined)
-                || (forecast.temperature_high && forecast.temperature_high.day_1 && typeof states[ forecast.temperature_high.day_1 ] !== undefined)
-                || (forecast.precipitation_intensity && forecast.precipitation_intensity.day_1 && typeof states[ forecast.precipitation_intensity.day_1 ] !== undefined)
-                || (forecast.precipitation_probability && forecast.precipitation_probability.day_1 && typeof states[ forecast.precipitation_probability.day_1 ] !== undefined)) {
-
-                _renderedPresent = renderPresent(this.hass,
-                  this._config.weather.current, this._config.weather.forecast, this._language, this._terms, posix > 0) ;
-                posix++ ;
-              } else _renderedPresent = "" ;
-            } else _renderedPresent = "" ;
-          }
-        } else _renderedPresent = "" ;
+            if ((forecast.temperature_low && forecast.temperature_low.day_1 && typeof states[forecast.temperature_low.day_1] !== undefined)
+                || (forecast.temperature_high && forecast.temperature_high.day_1 && typeof states[forecast.temperature_high.day_1] !== undefined)
+                || (forecast.precipitation_intensity && forecast.precipitation_intensity.day_1 && typeof states[forecast.precipitation_intensity.day_1] !== undefined)
+                || (forecast.precipitation_probability && forecast.precipitation_probability.day_1 && typeof states[forecast.precipitation_probability.day_1] !== undefined)) {
+              _renderedPresent = renderPresent(this.hass,
+                this._config.weather.current, this._config.weather.forecast, this._language, this._terms, posix > 0);
+              posix++;
+            } else _renderedPresent = "";
+          } else _renderedPresent = "";
+        } else _renderedPresent = "";
 
         // Test AirQuality
-        if(this._showAirQuality && this._hasAirQuality ) {
-          let airQuality = this._config.air_quality ;
+        if (this._showAirQuality && this._hasAirQuality) {
+          const airQuality = this._config.air_quality;
 
-          if((airQuality.co && typeof states[ airQuality.co ] !== undefined)
-            || (airQuality.epa_aqi && typeof states[ airQuality.epa_aqi ] !== undefined)
-            || (airQuality.epa_health_concern && typeof states[ airQuality.epa_health_concern ] !== undefined)
-            || (airQuality.no2 && typeof states[ airQuality.no2 ] !== undefined)
-            || (airQuality.o3 && typeof states[ airQuality.o3 ] !== undefined)
-            || (airQuality.pm10 && typeof states[ airQuality.pm10 ] !== undefined)
-            || (airQuality.pm25 && typeof states[ airQuality.pm25 ] !== undefined)
-            || (airQuality.so2 && typeof states[ airQuality.so2 ] !== undefined)) {
-
-            _renderedAirQuality = renderAirQualities(this.hass, this._config.air_quality, posix > 0) ;
-            posix++ ;
-          } else _renderedAirQuality = "" ;
-        } else _renderedAirQuality = "" ;
+          if ((airQuality.co && typeof states[airQuality.co] !== undefined)
+            || (airQuality.epa_aqi && typeof states[airQuality.epa_aqi] !== undefined)
+            || (airQuality.epa_health_concern && typeof states[airQuality.epa_health_concern] !== undefined)
+            || (airQuality.no2 && typeof states[airQuality.no2] !== undefined)
+            || (airQuality.o3 && typeof states[airQuality.o3] !== undefined)
+            || (airQuality.pm10 && typeof states[airQuality.pm10] !== undefined)
+            || (airQuality.pm25 && typeof states[airQuality.pm25] !== undefined)
+            || (airQuality.so2 && typeof states[airQuality.so2] !== undefined)) {
+            _renderedAirQuality = renderAirQualities(this.hass, this._config.air_quality, posix > 0);
+            posix++;
+          } else _renderedAirQuality = "";
+        } else _renderedAirQuality = "";
 
         // Test uv
-        if(this._showUv && this._hasUv ) {
-          let uv = this._config.uv ;
+        if (this._showUv && this._hasUv) {
+          const { uv } = this._config;
 
-          if((uv.protection_window && typeof states[ uv.protection_window ] !== undefined)
-            || (uv.ozone_level && typeof states[ uv.ozone_level ] !== undefined)
-            || (uv.uv_index && typeof states[ uv.uv_index ] !== undefined)
-            || (uv.uv_level && typeof states[ uv.uv_level ] !== undefined)
-            || (uv.max_uv_index && typeof states[ uv.max_uv_index ] !== undefined)) {
+          if ((uv.protection_window && typeof states[uv.protection_window] !== undefined)
+            || (uv.ozone_level && typeof states[uv.ozone_level] !== undefined)
+            || (uv.uv_index && typeof states[uv.uv_index] !== undefined)
+            || (uv.uv_level && typeof states[uv.uv_level] !== undefined)
+            || (uv.max_uv_index && typeof states[uv.max_uv_index] !== undefined)) {
+            _renderedUv = renderUv(this.hass, this._config.uv, posix > 0);
+            posix++;
+          } else _renderedUv = "";
+        } else _renderedUv = "";
 
-            _renderedUv = renderUv(this.hass, this._config.uv, posix > 0) ;
-            posix++ ;
-          } else _renderedUv = "" ;
-        } else _renderedUv = "" ;
+        if (this._showPollen && this._hasPollen) {
+          const { pollen } = this._config;
 
-        if(this._showPollen && this._hasPollen ) {
-          let pollen = this._config.pollen ;
+          if ((pollen.grass && pollen.grass.entity && typeof states[pollen.grass.entity] !== undefined)
+            || (pollen.tree && pollen.tree.entity && typeof states[pollen.tree.entity] !== undefined)
+            || (pollen.weed && pollen.weed.entity && typeof states[pollen.weed.entity] !== undefined)) {
+            _renderedPollen = renderPollens(this.hass, this._config.pollen, posix > 0);
+            posix++;
+          } else _renderedPollen = "";
+        } else _renderedPollen = "";
 
-          if((pollen.grass && pollen.grass.entity &&  typeof states[ pollen.grass.entity ] !== undefined)
-            || (pollen.tree && pollen.tree.entity &&  typeof states[ pollen.tree.entity ] !== undefined)
-            || (pollen.weed && pollen.weed.entity &&  typeof states[ pollen.weed.entity ] !== undefined)) {
-
-            _renderedPollen = renderPollens(this.hass, this._config.pollen, posix > 0) ;
-            posix++ ;
-          } else _renderedPollen = "" ;
-        } else _renderedPollen = "" ;
-
-        if( this._showForecast && this._hasForecast ) {
-          let forecast = this._config.weather.forecast ;
+        if (this._showForecast && this._hasForecast) {
+          const { forecast } = this._config.weather;
 
           _renderedForecast = renderForecasts(this.hass,
-            this._config.weather.current, forecast, this._iconsConfig, this._language, posix > 0) ;
-          posix++ ;
-        } else _renderedForecast = "" ;
+            this._config.weather.current, forecast, this._iconsConfig, this._language, posix > 0);
+          posix++;
+        } else _renderedForecast = "";
 
         // Test Alert
-        if( this._showAlert && this._hasAlert ) {
-          let alert = this._config.alert ;
+        if (this._showAlert && this._hasAlert) {
+          const { alert } = this._config;
 
-          _renderedAlert = renderAlert(this.hass, alert, posix > 0) ;
-          posix++ ;
-        } else _renderedAlert = "" ;
+          _renderedAlert = renderAlert(this.hass, alert, posix > 0);
+          posix++;
+        } else _renderedAlert = "";
 
         // Test Sea
-        if( this._showSea && this._hasSea ) {
-          let sea = this._config.sea ;
-          _renderedSea = renderSeaForecast(this.hass, sea, this._iconsConfig, this._language, posix > 0) ;
-          posix++ ;
-        } else _renderedSea = "" ;
+        if (this._showSea && this._hasSea) {
+          const { sea } = this._config;
+          _renderedSea = renderSeaForecast(this.hass, sea, this._iconsConfig, this._language, posix > 0);
+          posix++;
+        } else _renderedSea = "";
 
         return html`
       ${dynStyle ? html`
-      <style>${dynStyle}</style>` : "" }
+      <style>${dynStyle}</style>` : ""}
       
       <ha-card class="ha-card-weather-conditions ">
-        <div class="nd-container ${habgImage ? habgImage : ''}">
+        <div class="nd-container ${habgImage || ''}">
         ${this._header ? html`
             ${_renderedSummary}
             ${_renderedAlert}
@@ -419,8 +442,8 @@ Promise.all(findImagePath).then((testResults) => {
        * @param camId
        */
       renderCamera(hass: HomeAssistant, camId: string) {
-        let camera = hass.states[camId];
-        let entity_picture: string = camera ? camera.attributes.entity_picture : undefined ;
+        const camera = hass.states[camId];
+        const entity_picture: string = camera ? camera.attributes.entity_picture : undefined;
 
         return entity_picture ? html`
         <div @click=${e => this.handlePopup(e, camId)} class="camera-container">
@@ -439,15 +462,11 @@ Promise.all(findImagePath).then((testResults) => {
       handlePopup(e, entityId: string) {
         e.stopPropagation();
 
-        let ne = new Event('hass-more-info', {composed: true});
+        const ne = new Event('hass-more-info', { composed: true });
         // @ts-ignore
-        ne.detail = {entityId};
+        ne.detail = { entityId };
         this.dispatchEvent(ne);
       }
-
     }
-  }) ;
-}) ;
-
-
-
+  });
+});

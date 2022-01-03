@@ -14,6 +14,7 @@ rules:
   no-unused-vars: 0
   quotes: 0
   comma-dangle: 0
+  max-lines: off
   import/no-unresolved: 0
   import/prefer-default-export: 0
 globals:
