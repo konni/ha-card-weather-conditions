@@ -89,7 +89,7 @@ export const getWeatherBg = (condition: string, iconsConfig: IconsConfig, sunSta
  * @param hass
  */
 export const getUnit = (hass: HomeAssistant, measure: string) => {
-  const lengthUnit = hass.config.unit_system.length ;
+  const lengthUnit = hass.config.unit_system.length;
 
   switch (measure) {
     case "air_pressure":
@@ -161,7 +161,7 @@ export const getWindDirections = (wd: number, cwcLocWindDirections) => {
     return cwcLocWindDirections['NNW'];
 
   return null;
-} ;
+};
 
 export function getMoonIcon(phase:string) {
   return( cwcMoonPhaseIcons[phase.toLowerCase()] ) ;

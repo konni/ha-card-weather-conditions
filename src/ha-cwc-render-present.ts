@@ -123,7 +123,7 @@ export const renderPresent = (hass: HomeAssistant, currentCfg: Current, forecast
         ${(!!wind_speed) || (!!wind_bearing) ? html`
           <li>
             <ha-icon icon="mdi:weather-windy"></ha-icon> ${getWindDirections(wind_bearing, terms.windDirections)} ${wind_speed}
-            <span class="unit">${getUnit(hass,"length")}/h</span>
+            <span class="unit">${getUnit(hass,"wind_speed")}/h</span>
           </li>
         ` : ""}        
         ${undefined !== next_rising ? _renderPresentSingle(
