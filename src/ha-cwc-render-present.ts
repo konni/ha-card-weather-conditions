@@ -16,21 +16,21 @@ import {HomeAssistant} from "custom-card-helpers/dist";
  * @private
  */
 const _renderPresentDouble = (entity_min, entity_unit_min, entity_max, entity_unit_max, icon:string) => {
-  return((undefined !== entity_min) || (undefined !== entity_max) ? html`
+  return ((undefined !== entity_min) || (undefined !== entity_max) ? html`
     <li>
       <ha-icon icon="${icon}"></ha-icon>${undefined !== entity_min ? entity_min : "Na"} ${entity_unit_min} /
           <b>${undefined !== entity_max ? entity_max : "Na"} ${entity_unit_max}</b>
     </li>
-  ` : "") ;
-} ;
+  ` : "");
+};
 
 const _renderPresentSingle = (entity, entity_unit, icon:string) => {
-  return(html`
+  return (html`
     <li>
       <ha-icon icon="${icon}"></ha-icon>${undefined !== entity ? entity : "Na"} ${entity_unit}
     </li>
-  `) ;
-} ;
+  `);
+};
 
 /**
  *
@@ -51,7 +51,7 @@ export const renderPresent = (hass: HomeAssistant, currentCfg: Current, forecast
   if (sun) {
     next_rising = new Date(sun.attributes.next_rising);
     next_setting = new Date(sun.attributes.next_setting);
-    //console.log( "now:" + (new Date()).toLocaleTimeString() + " next_rising:" + next_rising.toLocaleTimeString() ) ;
+    // console.log( "now:" + (new Date()).toLocaleTimeString() + " next_rising:" + next_rising.toLocaleTimeString() ) ;
   }
 
   if (currentCfg.forecast) {
@@ -123,7 +123,7 @@ export const renderPresent = (hass: HomeAssistant, currentCfg: Current, forecast
         ${(!!wind_speed) || (!!wind_bearing) ? html`
           <li>
             <ha-icon icon="mdi:weather-windy"></ha-icon> ${getWindDirections(wind_bearing, terms.windDirections)} ${wind_speed}
-            <span class="unit">${getUnit(hass,"wind_speed")}/h</span>
+            <span class="unit">${getUnit(hass,"wind_speed")}</span>
           </li>
         ` : ""}        
         ${undefined !== next_rising ? _renderPresentSingle(
