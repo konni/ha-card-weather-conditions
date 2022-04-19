@@ -16,8 +16,8 @@ const styleSummary = css`
   
   .title {
     position: absolute;
-    left: calc(140px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
-    top: 0.6em;
+    left: calc(100px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
+    top: 0.4em;
     font-weight: 300;
     font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
     color: var(--primary-text-color);
