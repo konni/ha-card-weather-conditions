@@ -1,25 +1,23 @@
 import {css} from 'lit-element';
 
 const style = css`
-  ha-card {
+  ha-card { 
     cursor: pointer;
     position: relative;
-  }
-            
-.spacer {
-  padding-top: 1em;
-  border-top: solid 1px var(--primary-text-color);
-}
-        
-.variations {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  font-weight: 300;
-  color: var(--primary-text-color);
-  list-style: none;
-  padding: 3px 1em;
-  margin: 0;
+  }       
+  .spacer { 
+    padding-top: 1em;
+    border-top: solid 1px var(--primary-text-color);
+  }  
+ .variations {
+   display: flex;
+   flex-flow: row wrap;
+   justify-content: space-between;
+   font-weight: 300;
+   color: var(--primary-text-color);
+   list-style: none;
+   padding: 3px 1em;
+   margin: 0;
   // border-top: solid 1px var(--primary-text-color);
 }
 
